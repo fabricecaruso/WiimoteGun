@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{74ADD987-9BDD-4DDE-BFB1-E777A985B0BF}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WiimoteGun</RootNamespace>
+    <AssemblyName>WiimoteGun</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <ApplicationIcon>gray.ico</ApplicationIcon>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>WiimoteGun.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\SimpleLogger.cs" />
+    <Compile Include="Common\Win32.cs" />
+    <Compile Include="NotifyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Options.cs" />
+    <Compile Include="OptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OptionsForm.Designer.cs">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="WiimoteHiddenWnd.cs" />
+    <Compile Include="WiimoteLib\DataTypes\AccelCalibrationInfo.cs" />
+    <Compile Include="WiimoteLib\DataTypes\AccelState.cs" />
+    <Compile Include="WiimoteLib\DataTypes\ButtonState.cs" />
+    <Compile Include="WiimoteLib\DataTypes\ExtensionType.cs" />
+    <Compile Include="WiimoteLib\DataTypes\IRMode.cs" />
+    <Compile Include="WiimoteLib\DataTypes\IRSensitivity.cs" />
+    <Compile Include="WiimoteLib\DataTypes\IRSensor.cs" />
+    <Compile Include="WiimoteLib\DataTypes\IRState.cs" />
+    <Compile Include="WiimoteLib\DataTypes\LastReadStatus.cs" />
+    <Compile Include="WiimoteLib\DataTypes\LEDs.cs" />
+    <Compile Include="WiimoteLib\DataTypes\LEDState.cs" />
+    <Compile Include="WiimoteLib\DataTypes\MotionPlusCalibrationInfo.cs" />
+    <Compile Include="WiimoteLib\DataTypes\MotionPlusState.cs" />
+    <Compile Include="WiimoteLib\DataTypes\NunchukCalibrationInfo.cs" />
+    <Compile Include="WiimoteLib\DataTypes\NunchukState.cs" />
+    <Compile Include="WiimoteLib\DataTypes\StatusState.cs" />
+    <Compile Include="WiimoteLib\DataTypes\Unused\ClassicControllerButtonState.cs" />
+    <Compile Include="WiimoteLib\DataTypes\Unused\ClassicControllerCalibrationInfo.cs" />
+    <Compile Include="WiimoteLib\DataTypes\Unused\ClassicControllerState.cs" />
+    <Compile Include="WiimoteLib\DataTypes\WiimoteState.cs" />
+    <Compile Include="WiimoteLib\Devices\BluetoothAddress.cs" />
+    <Compile Include="WiimoteLib\Devices\BluetoothDeviceInfo.cs" />
+    <Compile Include="WiimoteLib\Devices\HIDDeviceInfo.cs" />
+    <Compile Include="WiimoteLib\Devices\WiimoteDeviceInfo.cs" />
+    <Compile Include="WiimoteLib\Events\Events.cs" />
+    <Compile Include="WiimoteLib\Events\Exceptions.cs" />
+    <Compile Include="WiimoteLib\Events\OldEvents.cs" />
+    <Compile Include="WiimoteLib\Geometry\MathUtils.cs" />
+    <Compile Include="WiimoteLib\Geometry\PitchYawRollF.cs" />
+    <Compile Include="WiimoteLib\Geometry\PitchYawRollI.cs" />
+    <Compile Include="WiimoteLib\Geometry\Point2F.cs" />
+    <Compile Include="WiimoteLib\Geometry\Point2I.cs" />
+    <Compile Include="WiimoteLib\Geometry\Point3F.cs" />
+    <Compile Include="WiimoteLib\Geometry\Point3I.cs" />
+    <Compile Include="WiimoteLib\Helpers\ADPCMConverter.cs" />
+    <Compile Include="WiimoteLib\Helpers\ADPCMReader.cs" />
+    <Compile Include="WiimoteLib\Helpers\ATimer.cs" />
+    <Compile Include="WiimoteLib\Helpers\MicroTimer.cs" />
+    <Compile Include="WiimoteLib\Helpers\MultimediaTimer.cs" />
+    <Compile Include="WiimoteLib\Helpers\Registers.cs" />
+    <Compile Include="WiimoteLib\Helpers\ReportEnums.cs" />
+    <Compile Include="WiimoteLib\Helpers\RiffReader.cs" />
+    <Compile Include="WiimoteLib\Helpers\Speaker.cs" />
+    <Compile Include="WiimoteLib\Helpers\WaveReader.cs" />
+    <Compile Include="WiimoteLib\Helpers\WiimoteConstants.cs" />
+    <Compile Include="WiimoteLib\Helpers\WiimoteEnums.cs" />
+    <Compile Include="WiimoteLib\Helpers\WiimoteRegistry.cs" />
+    <Compile Include="WiimoteLib\Native\Manufacturer.cs" />
+    <Compile Include="WiimoteLib\Native\NativeEnums.cs" />
+    <Compile Include="WiimoteLib\Native\NativeMethods.cs" />
+    <Compile Include="WiimoteLib\Native\NativeStructures.cs" />
+    <Compile Include="WiimoteLib\Native\Uuids.cs" />
+    <Compile Include="WiimoteLib\Native\Windows\DeviceManagementMessage.cs" />
+    <Compile Include="WiimoteLib\Native\Windows\DeviceManagementMessage2.cs" />
+    <Compile Include="WiimoteLib\Native\Windows\DeviceManagementStructures.cs" />
+    <Compile Include="WiimoteLib\Native\Windows\WindowsMessage.cs" />
+    <Compile Include="WiimoteLib\Util\BitExtensions.cs" />
+    <Compile Include="WiimoteLib\Util\EnumInfo.cs" />
+    <Compile Include="WiimoteLib\Util\LockTracker.cs" />
+    <Compile Include="WiimoteLib\Util\TaskExtensions.cs" />
+    <Compile Include="WiimoteLib\Wiimote.cs" />
+    <Compile Include="WiimoteLib\Wiimote.Events.cs" />
+    <Compile Include="WiimoteLib\Wiimote.IO.cs" />
+    <Compile Include="WiimoteLib\Wiimote.Parsing.cs" />
+    <Compile Include="WiimoteLib\Wiimote.Settings.cs" />
+    <Compile Include="WiimoteLib\WiimoteManager.cs" />
+    <Compile Include="WiimoteLib\WiimoteManager.Events.cs" />
+    <Compile Include="WiimoteLib\WiimoteManager.Tasks.cs" />
+    <Compile Include="WiimoteLib\WiimoteManager.WndProc.cs" />
+    <Compile Include="WiimoteLib\WiimoteOld\DataTypes.cs" />
+    <None Include="WiimoteLib\WiimoteOld\WiimoteOld.Settings.cs" />
+    <None Include="WiimoteLib\WiimoteOld\WiimoteOld.Parsing.cs" />
+    <None Include="WiimoteLib\WiimoteOld\WiimoteOld.IO.cs" />
+    <None Include="WiimoteLib\WiimoteOld\WiimoteOld.cs" />
+    <None Include="WiimoteLib\WiimoteOld\WiimoteCollection.cs" />
+    <None Include="WiimoteLib\Native\HIDapi.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CalibrateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\EsInput.cs" />
+    <Compile Include="Common\Extensions.cs" />
+    <Compile Include="MouseEventSimulator.cs" />
+    <Compile Include="VirtualJoy\IVirtualJoy.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ScreenPositionCalculator.cs" />
+    <Compile Include="VirtualJoy\VirtualVJoy.cs" />
+    <Compile Include="VirtualJoy\VirtualSendKey.cs" />
+    <None Include="Resources\gun.png" />
+    <Compile Include="WiiMoteController.cs" />
+    <None Include="app.config" />
+    <AppDesigner Include="Properties\" />
+    <None Include="WiimoteLib\docs\APIHelp\AdditionalContent\changes.topic" />
+    <None Include="WiimoteLib\docs\APIHelp\AdditionalContent\copyright.topic" />
+    <None Include="WiimoteLib\docs\APIHelp\AdditionalContent\license.topic" />
+    <None Include="WiimoteLib\docs\APIHelp\AdditionalContent\overview.topic" />
+    <None Include="WiimoteLib\docs\APIHelp\Help\WiimoteLib.chm" />
+    <None Include="WiimoteLib\docs\APIHelp\WiimoteLib.shfb" />
+    <None Include="WiimoteLib\docs\APIHelp\WiimoteLib.sitemap" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptionsForm.resx">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="WiimoteLib\docs\copyright.txt" />
+    <Resource Include="WiimoteLib\docs\license.txt" />
+    <Resource Include="WiimoteLib\docs\readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 et x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gray.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="green.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="red.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
