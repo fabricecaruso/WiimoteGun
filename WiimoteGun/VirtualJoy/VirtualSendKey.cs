@@ -75,10 +75,25 @@ namespace WiimoteGun
                         Send(Keys.Down, value, true);
                         break;
                     case 82:
-                        Send(Keys.Up, value, true);
+                        Send(Keys.Up, value, true); 
                         break;
-                    case 224:
-                        Send(Keys.Control, value, true);
+                    case 0x39: // Maj
+                        Send(Keys.ShiftKey, value, true);
+                        break;
+                    case 0xE0: // Left control
+                        Send(Keys.ControlKey, value, false);
+                        break;                
+                    case 0xE1: // LShift
+                        Send(Keys.ShiftKey, value, false);
+                        break;
+                    case 0xE2: // LAlt
+                        Send(Keys.Alt, value, false);
+                        break;
+                    case 0xE4: // RCtrl
+                        Send(Keys.ControlKey, value, true);
+                        break;
+                    case 0xE6: // RShift
+                        Send(Keys.ShiftKey, value, true);
                         break;
                 }
             }
@@ -173,7 +188,11 @@ namespace WiimoteGun
                     SetState(InputKey.y, value);
                     break;
                 case 5:
-                    SetState(InputKey.select, value);
+              //      SetState(InputKey.select, value);
+
+                    if (_kb != null && _kb[InputKey.hotkey] != null && _kb[InputKey.select] != null && _kb[InputKey.select].Id != _kb[InputKey.hotkey].Id)
+                        SetState(InputKey.hotkey, value);
+
                     break;
                 case 6:
                     SetState(InputKey.start, value);
