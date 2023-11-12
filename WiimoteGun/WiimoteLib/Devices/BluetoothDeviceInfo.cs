@@ -82,7 +82,7 @@ namespace WiimoteLib.Devices {
 				serviceCount = services.Length;
 				NativeMethods.BluetoothEnumerateInstalledServices(IntPtr.Zero, ref DeviceInfo, ref serviceCount, services);
 				if (res == 0) {
-					Debug.WriteLine($"{this} Paired");
+					Log.Info($"{this} Paired");
 					return true;
 				}
 				return false;
@@ -94,7 +94,7 @@ namespace WiimoteLib.Devices {
 			byte[] data = BitConverter.GetBytes(DeviceInfo.Address);
 			if (NativeMethods.BluetoothRemoveDevice(data) == 0) {
 				DeviceInfo.fConnected = false;
-				Debug.WriteLine($"{this} Removed");
+				Log.Info($"{this} Removed");
 				return true;
 			}
 			return false;
@@ -128,7 +128,7 @@ namespace WiimoteLib.Devices {
 			result = NativeMethods.WSALookupServiceBegin(ref wqs, flags, out hLookup);
 			int err = NativeMethods.WSAGetLastError();
 			hservice.Free();
-			Debug.WriteLine($"IsDiscoverable: {watch.ElapsedMilliseconds}ms");
+			Log.Debug($"IsDiscoverable: {watch.ElapsedMilliseconds}ms");
 			if (result != 0)
 				return false;
 			NativeMethods.WSALookupServiceEnd(hLookup);

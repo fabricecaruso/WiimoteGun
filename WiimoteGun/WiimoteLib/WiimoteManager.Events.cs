@@ -26,9 +26,10 @@ namespace WiimoteLib {
 
 		private static bool RaiseDiscovered(BluetoothDeviceInfo bt, HIDDeviceInfo hid) {
 			if (bt?.IsInvalid ?? true)
-				Debug.WriteLine($"{hid} Discovered");
+				Log.Info($"{hid} Discovered");
 			else
-				Debug.WriteLine($"{bt} Discovered");
+				Log.Info($"{bt} Discovered");
+
 			WiimoteDeviceInfo device;
 			//FIXME: Quick fix to support both Bluetooth and DolphinBar connections.
 			if (bt?.IsInvalid ?? true)// && DolphinBarMode)
@@ -50,18 +51,18 @@ namespace WiimoteLib {
 		}
 
 		private static void RaiseConnected(Wiimote wiimote) {
-			Debug.WriteLine($"{wiimote} Connected");
+			Log.Info($"{wiimote} Connected");
 			Connected?.Invoke(null, new WiimoteEventArgs(wiimote));
 			UpdateTaskMode();
 		}
 
 		private static void RaiseConnectionFailed(WiimoteDeviceInfo device, Exception ex) {
-			Debug.WriteLine($"{device} Connection Failed: {ex.Message}");
+			Log.Warning($"{device} Connection Failed: {ex.Message}");
 			ConnectionFailed?.Invoke(null, new WiimoteConnectionFailedEventArgs(device, ex));
 		}
 
 		private static void RaiseDisconnected(Wiimote wiimote, DisconnectReason reason, bool? removeDevice = null) {
-			Debug.WriteLine($"{wiimote} Disconnected: {reason}");
+			Log.Info($"{wiimote} Disconnected: {reason}");
 			Disconnected?.Invoke(null, new WiimoteDisconnectedEventArgs(wiimote, reason));
 			wiimote.RaiseDisconnected(reason);
 			if (removeDevice ?? unpairOnDisconnect)
@@ -70,19 +71,19 @@ namespace WiimoteLib {
 		}
 
 		private static void RaiseInRange(Wiimote wiimote) {
-			Debug.WriteLine($"{wiimote} In Range");
+			Log.Info($"{wiimote} In Range");
 			InRange?.Invoke(null, new WiimoteRangeEventArgs(wiimote, true));
 			wiimote.RaiseInRange();
 		}
 
 		private static void RaiseOutOfRange(Wiimote wiimote) {
-			Debug.WriteLine($"{wiimote} Out of Range");
+			Log.Info($"{wiimote} Out of Range");
 			OutOfRange?.Invoke(null, new WiimoteRangeEventArgs(wiimote, false));
 			wiimote.RaiseOutOfRange();
 		}
 
 		private static void RaiseManagerException(Exception ex) {
-			Debug.WriteLine($"Manager Exception: {ex.Message}");
+			Log.Error($"Manager Exception: {ex.Message}");
 			ManagerException?.Invoke(null, ex);
 		}
 
@@ -90,17 +91,17 @@ namespace WiimoteLib {
 		// Called by Wiimote
 
 		internal static void RaiseWiimoteException(Wiimote wiimote, Exception ex) {
-			Debug.WriteLine($"{wiimote} Exception: {ex}");
+			Log.Error($"{wiimote} Exception: {ex}");
 			WiimoteException?.Invoke(null, new WiimoteExceptionEventArgs(wiimote, ex));
 		}
 
 		internal static void RaiseExtensionChanged(Wiimote wiimote, ExtensionType type, bool inserted) {
-			Debug.WriteLine($"{wiimote} Extension: {type} {(inserted ? "Inserted" : "Removed")}");
+			Log.Info($"{wiimote} Extension: {type} {(inserted ? "Inserted" : "Removed")}");
 			ExtensionChanged?.Invoke(wiimote, new WiimoteExtensionEventArgs(wiimote, type, inserted));
 		}
 
 		internal static void RaiseStateChanged(Wiimote wiimote) {
-			//Debug.WriteLine($"{wiimote} State");
+			//Log.WriteLine($"{wiimote} State");
 			StateChanged?.Invoke(null, new WiimoteStateEventArgs(wiimote));
 		}
 	}

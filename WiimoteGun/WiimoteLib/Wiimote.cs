@@ -70,7 +70,7 @@ namespace WiimoteLib {
 				}
 				catch {
 					// if we fail above, try the alternate HID writes
-					//Debug.WriteLine("AltWriteMethod");
+					//Log.WriteLine("AltWriteMethod");
 					altWriteMethod = true;
 					ReadWiimoteCalibration();
 				}
@@ -95,9 +95,9 @@ namespace WiimoteLib {
 		/// <summary>Retrieve the current status of the Wiimote and extensions.
 		/// Replaces GetBatteryLevel() since it was poorly named.</summary>
 		public void GetStatus(int timeout = 3000) {
-			Debug.WriteLine("GetStatus Start");
+			Log.Debug("GetStatus Start");
 			lock (statusDone) {
-				Debug.WriteLine("GetStatus Lock");
+				Log.Debug("GetStatus Lock");
 
 				byte[] buff = CreateReport(OutputReport.Status);
 
@@ -105,10 +105,10 @@ namespace WiimoteLib {
 
 				// signal the status report finished
 				if (!statusDone.WaitOne(timeout, false)) {
-					Debug.WriteLine("GetStatus Timeout");
+					Log.Warning("GetStatus Timeout");
 					throw new TimeoutException("Timed out waiting for status report");
 				}
-				Debug.WriteLine("GetStatus End");
+				Log.Debug("GetStatus End");
 			}
 		}
 
@@ -189,9 +189,9 @@ namespace WiimoteLib {
 		protected virtual void Dispose(bool disposing) {
 			// close up our handles
 			if (disposing && !disposed) {
-				Debug.WriteLine($"{this} Disposing");
+				Log.Debug($"{this} Disposing");
 				lock (ioLock) {
-					Debug.WriteLine($"{this} Disposing Lock");
+					Log.Debug($"{this} Disposing Lock");
 					readStates.Clear();
 					/*foreach (IAsyncResult ar in readStates.ToArray()) {
 						try {

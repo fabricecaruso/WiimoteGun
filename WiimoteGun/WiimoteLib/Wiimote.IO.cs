@@ -38,13 +38,13 @@ namespace WiimoteLib {
 		/// </summary>
 		private AsyncReadState BeginAsyncRead() {
 			lock (ioLock) {
-				Debug.WriteLine("Read Start");
+				Log.Debug("Read Start");
 				// if the stream is valid and ready
 				if (device.Stream != null && device.Stream.CanRead) {
 					// setup the read and the callback
 					AsyncReadState state = new AsyncReadState(false);
 					readStates.Add(device.Stream.BeginRead(state.Buffer, 0, state.Length, OnReadData, state));
-					Debug.WriteLine($"Read Threads: {ReadThreads}");
+					Log.Debug($"Read Threads: {ReadThreads}");
 					return state;
 				}
 			}
@@ -108,9 +108,9 @@ namespace WiimoteLib {
 
 				// parse it
 				bool newInput = ParseInputReport(state.Buffer);
-					// post an event
-					//Debug.WriteLine("State Changed Start");
-					//Debug.WriteLine("State Changed End");
+				// post an event
+				//Log.WriteLine("State Changed Start");
+				//Log.WriteLine("State Changed End");
 				//}
 
 				// start reading again
@@ -120,7 +120,7 @@ namespace WiimoteLib {
 					//Debug.WriteLine("Read Continue");
 				}
 				else {
-					Debug.WriteLine($"Read Stop {ReadThreads}");
+					Log.Debug($"Read Stop {ReadThreads}");
 				}
 
 				if (newInput)
@@ -158,7 +158,7 @@ namespace WiimoteLib {
 			}
 
 			if ((buff[3] & 0x07) != 0) {
-				Debug.WriteLine("*** read from write-only: " + readAddress.ToString("X8"));
+				Log.Debug("*** read from write-only: " + readAddress.ToString("X8"));
 				//LastReadStatus = LastReadStatus.ReadFromWriteOnlyMemory;
 				//mReadDone.Set();
 				//Respond(OutputReport.ReadMemory, null);
@@ -208,9 +208,9 @@ namespace WiimoteLib {
 		/// <param name="size">Length to read</param>
 		/// <returns>Data buffer</returns>
 		public byte[] ReadData(int address, short size, int timeout = 1000) {
-			Debug.WriteLine($"Read Start: {address:X8}");
+			Log.Debug($"Read Start: {address:X8}");
 			lock (readDone) {
-				Debug.WriteLine($"Read Lock: {address:X8}");
+				Log.Debug($"Read Lock: {address:X8}");
 				readBuff = new byte[size];
 				readAddress = address & 0xffff;
 				readSize = size;
@@ -228,11 +228,11 @@ namespace WiimoteLib {
 				WriteReport(buff);
 
 				if (!readDone.WaitOne(timeout, false)) {
-					Debug.WriteLine($"Read Timeout: {address:X8}");
+					Log.Warning($"Read Timeout: {address:X8}");
 					throw new TimeoutException("ReadData: Error reading data from Wiimote...is it connected?");
 				}
 
-				Debug.WriteLine($"Read End: {address:X8}");
+				Log.Debug($"Read End: {address:X8}");
 				return readBuff;
 			}
 		}
@@ -250,9 +250,9 @@ namespace WiimoteLib {
 		/// <param name="size">Length of buffer</param>
 		/// <param name="data">Data buffer</param>
 		public bool WriteData(int address, byte size, byte[] data, int timeout = 1000) {
-			Debug.WriteLine($"Write Start: {address:X8}");
+			Log.Debug($"Write Start: {address:X8}");
 			lock (writeDone) {
-				Debug.WriteLine($"Write Lock: {address:X8}");
+				Log.Debug($"Write Lock: {address:X8}");
 				byte[] buff = CreateReport(OutputReport.WriteMemory);
 
 				buff[1] = (byte) ((address & 0xff000000) >> 24);
@@ -265,10 +265,10 @@ namespace WiimoteLib {
 				WriteReport(buff);
 
 				if (!writeDone.WaitOne(timeout, false)) {
-					Debug.WriteLine($"Write Timeout: {address:X8}");
+					Log.Warning($"Write Timeout: {address:X8}");
 					return false;
 				}
-				Debug.WriteLine($"Write End: {address:X8}");
+				Log.Debug($"Write End: {address:X8}");
 				return true;
 			}
 		}
@@ -365,7 +365,7 @@ namespace WiimoteLib {
 				EnableSpeaker(config);*/
 				speakerTimer = new MicroTimer(speakerConfig.MicrosecondsPerReport);
 				speakerTimer.MicroTimerElapsed += OnSpeakerTimerEllapsed;
-				Debug.WriteLine("Milliseconds Per Report: " + speakerConfig.MillisecondsPerReport);
+				Log.Debug("Milliseconds Per Report: " + speakerConfig.MillisecondsPerReport);
 				//speakerTimer2 = new ATimer(3, speakerConfig.MillisecondsPerReport, OnSpeakerTimer2Ellapsed);
 				//}
 
@@ -403,7 +403,7 @@ namespace WiimoteLib {
 				//EnableSpeaker(config);
 				speakerTimer = new MicroTimer(speakerConfig.MicrosecondsPerReport);
 				speakerTimer.MicroTimerElapsed += OnSpeakerTimerEllapsed;
-				Debug.WriteLine("Milliseconds Per Report: " + speakerConfig.MillisecondsPerReport);
+				Log.WriteLine("Milliseconds Per Report: " + speakerConfig.MillisecondsPerReport);
 				//speakerTimer2 = new ATimer(3, speakerConfig.MillisecondsPerReport, OnSpeakerTimer2Ellapsed);
 				//}
 
@@ -445,7 +445,7 @@ namespace WiimoteLib {
 				speakerTimer?.Stop();
 			//speakerTimer = new MicroTimer(speakerConfig.MicrosecondsPerReport);
 			//speakerTimer.MicroTimerElapsed += OnSpeakerTimerEllapsed;
-			Debug.WriteLine("Milliseconds Per Report: " + speakerConfig.MillisecondsPerReport);
+			Log.WriteLine("Milliseconds Per Report: " + speakerConfig.MillisecondsPerReport);
 			speakerTimer2 = new ATimer(3, speakerConfig.MillisecondsPerReport, OnSpeakerTimer2Ellapsed);
 			//}
 

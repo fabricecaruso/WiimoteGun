@@ -101,23 +101,25 @@ namespace WiimoteGun
             WriteFormattedLog(LogLevel.WARNING, text);
         }
 
+        private object _lock = new object();
+
         private void WriteLine(string text, bool append = true)
         {
-            try
+            lock (_lock)
             {
-                System.Diagnostics.Debug.WriteLine(text);
-
-                using (System.IO.StreamWriter writer = new System.IO.StreamWriter(logFilename, append, System.Text.Encoding.UTF8))
+                try
                 {
-                    if (!string.IsNullOrEmpty(text))
+                    System.Diagnostics.Debug.WriteLine(text);
+
+                    using (System.IO.StreamWriter writer = new System.IO.StreamWriter(logFilename, append, System.Text.Encoding.UTF8))
                     {
-                        writer.WriteLine(text);
+                        if (!string.IsNullOrEmpty(text))
+                        {
+                            writer.WriteLine(text);
+                        }
                     }
                 }
-            }
-            catch
-            {
-                throw;
+                catch { }
             }
         }
 

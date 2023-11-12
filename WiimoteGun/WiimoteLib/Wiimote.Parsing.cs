@@ -59,7 +59,7 @@ namespace WiimoteLib {
 			else {
 				switch (type) {
 				case InputReport.Status:
-					Debug.WriteLine("******** STATUS ********");
+						Log.Debug("******** STATUS ********");
 
 					ExtensionType extensionTypeLast = wiimoteState.ExtensionType;
 					bool extensionLast = wiimoteState.Status.Extension;
@@ -72,10 +72,10 @@ namespace WiimoteLib {
 						if (extensionNew)
 							ReadByte(Registers.ExtensionType2);
 
-						Debug.WriteLine($"Extension byte={extensionType:X2}");
+							Log.Debug($"Extension byte={extensionType:X2}");
 
-						// extension connected?
-						Debug.WriteLine($"Extension, Old: {extensionLast}, New: {extensionNew}");
+							// extension connected?
+							Log.Debug($"Extension, Old: {extensionLast}, New: {extensionNew}");
 
 						if (extensionNew != extensionLast || extensionType == 0x04 || extensionType == 0x5) {
 
@@ -100,23 +100,23 @@ namespace WiimoteLib {
 					//Respond(OutputReport.Status, true);
 					break;
 				case InputReport.ReadData:
-					Debug.WriteLine("******** READ DATA ********");
+						Log.Debug("******** READ DATA ********");
 					ParseButtons2(buff, 1);
 					ParseReadData(buff);
 					break;
 				case InputReport.AcknowledgeOutputReport:
-					Debug.WriteLine("******** ACKNOWLEDGE ********");
+						Log.Debug("******** ACKNOWLEDGE ********");
 					ParseButtons2(buff, 1);
 					OutputReport outputType = (OutputReport) buff[3];
 					WriteResult result = (WriteResult) buff[4];
 					if (outputType == OutputReport.WriteMemory) {
 						writeDone.Set();
-						Debug.WriteLine("Write done");
+							Log.Debug("Write done");
 					}
 					//Acknowledge(outputType, result);
 					break;
 				default:
-					Debug.WriteLine($"Unknown input report: {type}");
+						Log.Warning($"Unknown input report: {type}");
 					break;
 				}
 			}
@@ -129,7 +129,7 @@ namespace WiimoteLib {
 		/// Handles setting up an extension when plugged in
 		/// </summary>
 		private void InitializeExtension(byte extensionType) {
-			Debug.WriteLine("InitExtension");
+			Log.Debug("InitExtension");
 
 			// only initialize if it's not a MotionPlus
 			if (extensionType != 0x04 && extensionType != 0x05) {
@@ -164,22 +164,22 @@ namespace WiimoteLib {
 
 				wiimoteState.Nunchuk.CalibrationInfo.Parse(buff, 0);
 
-				/*mWiimoteState.Nunchuk.CalibrationInfo.AccelCalibration.X0 = buff[0];
-				mWiimoteState.Nunchuk.CalibrationInfo.AccelCalibration.Y0 = buff[1];
-				mWiimoteState.Nunchuk.CalibrationInfo.AccelCalibration.Z0 = buff[2];
-				mWiimoteState.Nunchuk.CalibrationInfo.AccelCalibration.XG = buff[4];
-				mWiimoteState.Nunchuk.CalibrationInfo.AccelCalibration.YG = buff[5];
-				mWiimoteState.Nunchuk.CalibrationInfo.AccelCalibration.ZG = buff[6];
-				mWiimoteState.Nunchuk.CalibrationInfo.Max.X = buff[8];
-				mWiimoteState.Nunchuk.CalibrationInfo.Min.X = buff[9];
-				mWiimoteState.Nunchuk.CalibrationInfo.Mid.X = buff[10];
-				mWiimoteState.Nunchuk.CalibrationInfo.Max.Y = buff[11];
-				mWiimoteState.Nunchuk.CalibrationInfo.Min.Y = buff[12];
-				mWiimoteState.Nunchuk.CalibrationInfo.Mid.Y = buff[13];
-				mWiimoteState.Nunchuk.CalibrationInfo.Parse(buff, 0);*/
-				Debug.WriteLine("Nunchuk Calibration:");
+					/*mWiimoteState.Nunchuk.CalibrationInfo.AccelCalibration.X0 = buff[0];
+					mWiimoteState.Nunchuk.CalibrationInfo.AccelCalibration.Y0 = buff[1];
+					mWiimoteState.Nunchuk.CalibrationInfo.AccelCalibration.Z0 = buff[2];
+					mWiimoteState.Nunchuk.CalibrationInfo.AccelCalibration.XG = buff[4];
+					mWiimoteState.Nunchuk.CalibrationInfo.AccelCalibration.YG = buff[5];
+					mWiimoteState.Nunchuk.CalibrationInfo.AccelCalibration.ZG = buff[6];
+					mWiimoteState.Nunchuk.CalibrationInfo.Max.X = buff[8];
+					mWiimoteState.Nunchuk.CalibrationInfo.Min.X = buff[9];
+					mWiimoteState.Nunchuk.CalibrationInfo.Mid.X = buff[10];
+					mWiimoteState.Nunchuk.CalibrationInfo.Max.Y = buff[11];
+					mWiimoteState.Nunchuk.CalibrationInfo.Min.Y = buff[12];
+					mWiimoteState.Nunchuk.CalibrationInfo.Mid.Y = buff[13];
+					mWiimoteState.Nunchuk.CalibrationInfo.Parse(buff, 0);*/
+					Log.Debug("Nunchuk Calibration:");
 				var calib = wiimoteState.Nunchuk.CalibrationInfo;
-				Debug.WriteLine($"Max={calib.Max} Min={calib.Min} Mid={calib.Mid}");
+					Log.Debug($"Max={calib.Max} Min={calib.Min} Mid={calib.Mid}");
 				break;
 			case ExtensionType.ClassicController:
 				buff = ReadData(Registers.ExtensionCalibration, 16);
@@ -224,7 +224,7 @@ namespace WiimoteLib {
 				wiimoteState.MotionPlus.CalibrationInfo.Parse(buff, 0);
 				break;
 			}
-			Debug.WriteLine(wiimoteState.ExtensionType);
+			Log.Debug(wiimoteState.ExtensionType.ToString());
 			RaiseExtensionChanged(wiimoteState.ExtensionType, true);
 		}
 		private void ParseStatus2(byte[] buff, int off) {

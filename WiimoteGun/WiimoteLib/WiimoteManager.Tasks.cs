@@ -18,7 +18,7 @@ namespace WiimoteLib {
 
 			lock (taskLock) {
 				if (!IsInDiscoveryMode) {
-					Debug.WriteLine("Discovery Mode: Start");
+					Log.Info("Discovery Mode: Start");
 					discoverToken = new CancellationTokenSource();
 					CancellationToken token = discoverToken.Token;
 					discoverTask = Task.Run(() => DiscoverTask(token), token);
@@ -29,7 +29,7 @@ namespace WiimoteLib {
 		public static void StopDiscovery() {
 			lock (taskLock) {
 				if (IsInDiscoveryMode) {
-					Debug.WriteLine("Discovery Mode: Stop");
+					Log.Info("Discovery Mode: Stop");
 					discoverToken?.Cancel();
 					discoverToken = null;
 					discoverTask = null;
@@ -48,7 +48,7 @@ namespace WiimoteLib {
 			lock (taskLock) {
 				// Only idle if Wiimotes are connected
 				if (wiimotes.Any() && !IsInIdleMode) {
-					Debug.WriteLine("Idle Mode: Start");
+					Log.Info("Idle Mode: Start");
 					idleToken = new CancellationTokenSource();
 					CancellationToken token = idleToken.Token;
 					idleTask = Task.Run(() => IdleTask(token), token);
@@ -59,7 +59,7 @@ namespace WiimoteLib {
 		private static void StopIdle() {
 			lock (taskLock) {
 				if (IsInIdleMode) {
-					Debug.WriteLine("Idle Mode: Stop");
+					Log.Info("Idle Mode: Stop");
 					idleToken?.Cancel();
 					idleToken = null;
 					idleTask = null;
@@ -70,7 +70,7 @@ namespace WiimoteLib {
 		private static void StartWrite() {
 			lock (taskLock) {
 				if (!IsInWriteMode) {
-					Debug.WriteLine("Write Mode: Start");
+					Log.Info("Write Mode: Start");
 					writeToken = new CancellationTokenSource();
 					CancellationToken token = writeToken.Token;
 					writeTask = Task.Run(() => WriteTask(token), token);
@@ -80,7 +80,7 @@ namespace WiimoteLib {
 		private static void StopWrite() {
 			lock (taskLock) {
 				if (IsInWriteMode) {
-					Debug.WriteLine("Write Mode: Stop");
+					Log.Info("Write Mode: Stop");
 					writeToken?.Cancel();
 					writeToken = null;
 					writeTask = null;
@@ -91,19 +91,19 @@ namespace WiimoteLib {
 		private static void StopAllTasks() {
 			lock (taskLock) {
 				if (IsInDiscoveryMode) {
-					Debug.WriteLine("Discovery Mode: Stop");
+					Log.Info("Discovery Mode: Stop");
 					discoverToken?.Cancel();
 					discoverToken = null;
 					discoverTask = null;
 				}
 				else if (IsInIdleMode) {
-					Debug.WriteLine("Idle Mode: Stop");
+					Log.Info("Idle Mode: Stop");
 					idleToken?.Cancel();
 					idleToken = null;
 					idleTask = null;
 				}
 				if (IsInWriteMode) {
-					Debug.WriteLine("Write Mode: Stop");
+					Log.Info("Write Mode: Stop");
 					writeToken?.Cancel();
 					writeToken = null;
 					writeTask = null;
@@ -134,7 +134,7 @@ namespace WiimoteLib {
 				if (!DiscoverLoop(token))
 					break;
 			}
-			Debug.WriteLine("Discover Mode: End");
+			Log.Info("Discover Mode: End");
 		}
 
 		private static bool DiscoverLoop(CancellationToken token) {
@@ -205,7 +205,8 @@ namespace WiimoteLib {
 			{
 				if (token.IsCancellationRequested)
 					return false;
-				Debug.WriteLine($"Took {watch.ElapsedMilliseconds}ms to enumerate bluetooth device");
+
+				Log.Debug($"Took {watch.ElapsedMilliseconds}ms to enumerate bluetooth device");
 
 				Wiimote wiimote = null;
 				lock (wiimotes)
@@ -246,7 +247,7 @@ namespace WiimoteLib {
 							anyPaired = true;
 						}
 						else {
-							Debug.WriteLine("{device} pair failed!");
+							Log.WriteLine("{device} pair failed!");
 						}*/
 					}
 				}
@@ -271,7 +272,7 @@ namespace WiimoteLib {
 							}
 							else
 							{
-								Debug.WriteLine("{device} pair failed!");
+								Log.Warning("{device} pair failed!");
 							}
 						}
 					}
@@ -292,7 +293,7 @@ namespace WiimoteLib {
 				if (!IdleLoop(token))
 					break;
 			}
-			Debug.WriteLine("Idle Mode: End");
+			Log.Debug("Idle Mode: End");
 		}
 
 		private static bool IdleLoop(CancellationToken token) {
@@ -357,7 +358,7 @@ namespace WiimoteLib {
 				BluetoothDeviceInfo device = wiimote.Device.Bluetooth;
 				Stopwatch watch2 = Stopwatch.StartNew();
 				device.Refresh();
-				Debug.WriteLine($"Took {watch2.ElapsedMilliseconds}ms refresh {device}");
+				Log.Debug($"Took {watch2.ElapsedMilliseconds}ms refresh {device}");
 				if (!device.Connected) {
 					lock (wiimotes) {
 						wiimote.Dispose();
@@ -375,7 +376,7 @@ namespace WiimoteLib {
 			while (!token.IsCancellationRequested) {
 				WriteLoop(token);
 			}
-			Debug.WriteLine("Write Mode: End");
+			Log.Debug("Write Mode: End");
 		}
 
 		private static void WriteLoop(CancellationToken token) {

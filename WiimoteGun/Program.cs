@@ -25,6 +25,7 @@ namespace WiimoteGun
             if (!createdNew)
                 return;
 
+            SimpleLogger.Instance.Info("---------------------------------------------------------------");
             SimpleLogger.Instance.Info("WiimoteGun startup");
 
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;

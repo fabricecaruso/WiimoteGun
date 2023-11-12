@@ -12,7 +12,7 @@ namespace WiimoteLib {
 	public partial class Wiimote : IDisposable {
 		/// <summary>Initialize the MotionPlus extension.</summary>
 		public void EnableMotionPlus(MotionPlusExtensionType extension = MotionPlusExtensionType.NoExtension) {
-			Debug.WriteLine("InitializeMotionPlus");
+			Log.Info("InitializeMotionPlus");
 			WriteByte(Registers.ExtensionInit1, 0x55);
 			/*WriteData(Registers.ExtensionInit2, 0x00);
 			WriteData(Registers.ExtensionInit1, 0x55);*/
@@ -22,7 +22,7 @@ namespace WiimoteLib {
 
 		/// <summary>Turns off the MotionPlus extension.</summary>
 		public void DisableMotionPlus() {
-			Debug.WriteLine("DisableMotionPlus");
+			Log.Info("DisableMotionPlus");
 			//if (mWiimoteState.MotionPlus.ExtensionType != MotionPlusExtensionType.NoExtension) {
 			WriteByte(Registers.MotionPlusDisable, 0x55);
 			wiimoteState.MotionPlus.ExtensionType = MotionPlusExtensionType.NoExtension;
@@ -34,7 +34,7 @@ namespace WiimoteLib {
 		/// <param name="type">Report type</param>
 		/// <param name="continuous">Continuous data</param>
 		public void SetReportType(ReportType type, bool continuous) {
-			Debug.WriteLine("SetReportType: " + type);
+			Log.Info("SetReportType: " + type);
 			SetReportType(type, IRSensitivity.Maximum, continuous);
 		}
 

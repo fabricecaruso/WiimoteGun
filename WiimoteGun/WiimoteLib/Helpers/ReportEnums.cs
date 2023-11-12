@@ -175,7 +175,7 @@ namespace WiimoteLib {
 		public bool Send() {
 			if (Wiimote.AltWriteMethod) {
 				if (!NativeMethods.HidD_SetOutputReport(Handle, Buffer, Length)) {
-					Debug.WriteLine($"Failed to send: {this} HIdD");
+					Log.Error($"Failed to send: {this} HIdD");
 					return false;
 				}
 				return true;
@@ -186,7 +186,7 @@ namespace WiimoteLib {
 					return true;
 				}
 				catch (Exception ex) {
-					Debug.WriteLine($"Failed to send: {this} FileWrite: {ex}");
+					Log.Error($"Failed to send: {this} FileWrite: {ex}");
 					return false;
 				}
 			}

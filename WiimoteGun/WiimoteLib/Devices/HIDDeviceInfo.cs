@@ -175,7 +175,7 @@ namespace WiimoteLib.Devices {
 					if (!NativeMethods.SetupDiGetDeviceInterfaceDetail(hDevInfo, ref hid.DIData, ref hid.DIDetail, size, out size, IntPtr.Zero))
 						continue;
 
-					//Debug.WriteLine(string.Format("{0}: {1} - {2}", index, hid.Path, Marshal.GetLastWin32Error()));
+					//Log.WriteLine(string.Format("{0}: {1} - {2}", index, hid.Path, Marshal.GetLastWin32Error()));
 
 					// Open the device handle
 					if (!hid.OpenHandle())

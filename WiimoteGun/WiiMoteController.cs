@@ -5,6 +5,7 @@ using System.Threading;
 using System;
 using System.Linq;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace WiimoteGun
 {
@@ -83,8 +84,11 @@ namespace WiimoteGun
             Program.SetConnectedState(false);
             e.Wiimote.StateChanged -= OnWiiMoteStateChanged;
 
-            WiimoteManager.StartDiscovery();            
+            WiimoteManager.StartDiscovery();
         }
+
+
+
 
         private void OnWiimoteConnected(object sender, WiimoteEventArgs e)
         {            
@@ -173,7 +177,7 @@ namespace WiimoteGun
                 if (_mode == WiiMoteMode.Mouse)
                 {
                     bool wasCalibrating = _calculator.IsCalibrating;
-                        
+
                     var pos = _calculator.GetPosition(ir, buttons, _lastState);
 
                     if (wasCalibrating || _calculator.IsCalibrating)
