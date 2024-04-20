@@ -76,7 +76,7 @@ namespace WiimoteLib {
 				}
 
 				// force a status check to get the state of any extensions plugged in at startup
-				GetStatus(500);
+				GetStatus(3000);
 			}
 			catch {
 				Dispose();
